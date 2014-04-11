@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+	<!--Bean that creates the Registration Dao instance -->
+	<bean id="daoImpl"
+		class="com.iconnect.profiling.repository.RegistrationRepositoryImpl">
+		<constructor-arg name="mongoTemplate" ref="mongoTemplate" />
+		<property name="mailThread" ref="mailThread" />
+		<property name="activationModel" ref="activationModel" />
+	</bean>
+	<bean id="daoHelper" class="com.iconnect.profiling.repository.RegistrationHelper" />
+
+	<bean id="activationModel" class="com.iconnect.profiling.domain.ActivationDomain" />
+	<bean id="mailThread" class="com.iconnect.profiling.mail.Mail">
+		<constructor-arg name="activationModel" ref="activationModel" />
+		<constructor-arg name="impl" ref="javaMailSender" />
+	</bean>
+
+	<!-- Factory bean that creates the Mongo instance -->
+	<bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
+		<property name="host" value="localhost" />
+	</bean>
+	<!-- login specific bean -->
+	<bean id="loginRepository" class="com.iconnect.profiling.repository.LoginRepositoryImpl">
+		<property name="mongoTemplate" ref="mongoTemplate"/>
+	</bean>
+
+	<!-- MongoTemplate used to connect database -->
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongo" ref="mongo" />
+		<constructor-arg name="databaseName" value="test" />
+	</bean>
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="nvkumar55@gmail.com" />
+		<property name="password" value="Hacker@@fucker" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
+
+
+</beans>
