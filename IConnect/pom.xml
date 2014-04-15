@@ -110,10 +110,6 @@
 		</dependency>
 		<!-- aop-aspectj -->
 
-
-
-
-
 		<!-- Logging with SLF4J & LogBack -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
