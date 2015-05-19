@@ -1,0 +1,1 @@
+Project consists of different kind of modules which allows several business people interact eachother
